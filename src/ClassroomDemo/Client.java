@@ -13,23 +13,22 @@ public class Client {
                 String s = sc.nextLine();
                 s += "\n";//给模拟发送的内容添加一个换行符作为结束标记
                 //输入了内容以后再连接服务器，防止一直占用端口
-                Socket socket = new Socket("0.0.0.0", 8888);
+                Socket socket = new Socket("127.0.0.1", 8888);
                 InputStream is = socket.getInputStream();
                 OutputStream os = socket.getOutputStream();
                 PrintWriter out = new PrintWriter(os);
                 out.println(s);
-//                System.out.println("已经连接服务器");
-//                os.write(s.getBytes("UTF-8"));
                 out.flush();
                 InputStreamReader isr = new InputStreamReader(is);//InputStreamReader--->字符流
                 BufferedReader br = new BufferedReader(isr);//字符串缓存流
                 String msg = "";
                 StringBuilder sb = new StringBuilder();
+                //通过循环逐行读取，每次读到的行都添加到字符串构造器StringBuilder里面，直到读完为止，最后将字符串构造器里的内容全部转为字符串输出
                 while ((msg = br.readLine()) != null && msg.length() > 0) {
                     sb.append(msg);
                 }
                 msg = sb.toString();
-                System.out.println("服务器返回消息" + msg);
+                System.out.println("服务器返回消息:" + msg);
                 os.close();
                 out.close();
                 br.close();
