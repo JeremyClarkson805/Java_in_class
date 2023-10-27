@@ -17,7 +17,6 @@ public class Server {
                 //--------把输入流的字节转换成字符串并按UTF-8解码-----------
                 InputStreamReader isr = new InputStreamReader(is);//InputStreamReader--->字符流
                 BufferedReader br = new BufferedReader(isr);//字符串缓存流
-//                StringBuilder str = new StringBuilder();
                 String msg = "";
                 StringBuilder sb = new StringBuilder();
                 while ((msg = br.readLine()) != null && msg.length() > 0) {
