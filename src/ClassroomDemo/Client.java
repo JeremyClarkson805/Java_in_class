@@ -40,6 +40,10 @@ public class Client {
             throw new RuntimeException(e);
         }
     }
+    //获取当前时间
+    public static String getTime() {
+        return new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new java.util.Date());
+    }
 }
 
 

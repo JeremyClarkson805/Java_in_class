@@ -1,6 +1,6 @@
 package ClassroomDemo;
 
-public class test_multithreading {
+public class demo_multithreading {
     static void test_1()
     {
         double s = 0;

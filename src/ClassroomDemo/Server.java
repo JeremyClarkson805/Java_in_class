@@ -41,10 +41,3 @@ public class Server {
     }
 }
 
-class Waiter extends Thread {
-    Socket socket = null;
-
-    public Waiter(Socket socket) {
-        this.socket = socket;
-    }
-}
