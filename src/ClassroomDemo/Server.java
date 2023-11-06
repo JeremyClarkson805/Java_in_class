@@ -41,3 +41,9 @@ public class Server {
     }
 }
 
+/*
+字节流:一般是带有Stream字样的，如InputStream，FileInputStream等，这是流处理中最小的单位字节，一般用于处理二进制文件，如图片，视频，音频等
+字符流:一般是带有Reader或Writer字样的，如InputStreamReader，FileReader等，这是流处理中最小的单位字符，
+      它处理的最小单位是字符，一般用于处理文本文件，如txt，html，java等
+ */
+

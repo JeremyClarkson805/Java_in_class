@@ -40,7 +40,7 @@ public class SuperServer {
             }
             if (j == map.size()) i = j;//如果原来的map没有空房间，则以j最后的值为编号作为新房间
             map.put(i, socket);//把新来的客人请入第i个房间
-            new Waiter(i, socket).start();
+            new Waiter(i, socket).start();//启动新线程负责接收消息
         }
     }
 }
