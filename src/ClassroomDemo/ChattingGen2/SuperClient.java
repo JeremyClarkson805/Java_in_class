@@ -22,7 +22,7 @@ public class SuperClient {
                 out.flush();
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("无法连接到服务器");
         }
     }
 }
