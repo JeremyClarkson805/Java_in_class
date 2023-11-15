@@ -5,6 +5,8 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.io.*;
 import java.net.Socket;
 import java.util.Scanner;
@@ -15,6 +17,7 @@ public class ClientGUI {
     static JTextArea jta = null;
     static JFrame jf = null;
     static ActionListener l = new MyActionListener();
+    static KeyListener l2 = new MyKeyListener();
     static OutputStream os = null;
     static PrintWriter out = null;
     static Socket socket = null;
@@ -25,10 +28,12 @@ public class ClientGUI {
         jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//关闭窗口即退出程序
         jta = new JTextArea();//聊天框，文本框
         jta.setEditable(false);//让聊天记录框不能被编辑
+        jta.setLineWrap(true);
         JScrollPane jsp = new JScrollPane(jta);//滚动条 把文本框加到一个滚动面板上
         jf.add(jsp);//再把面板加入窗口
         JPanel jp = new JPanel();//底部的面板，用来放输入框和按钮
         jtf = new JTextField(25);//输入框
+        jtf.addKeyListener(l2);
         JButton jb = new JButton("发送");//发送按钮
         jb.addActionListener(l);//添加一个行为监听器
         jp.add(jtf);jp.add(jb);
@@ -47,13 +52,10 @@ public class ClientGUI {
         }
 
     }
-}
-
-class MyActionListener implements ActionListener{//实现监听器接口的类
-    @Override
-    public void actionPerformed(ActionEvent e) {
+    static void action(){
         String msg = ClientGUI.jtf.getText();//通过类名访问静态变量
-        if (msg.equals("")){
+        msg = msg.trim();
+        if (msg.isEmpty()){
             JOptionPane.showMessageDialog(ClientGUI.jf,"请不要发送空消息");//通过弹窗的方式展示消息
             return;
         }
@@ -63,9 +65,35 @@ class MyActionListener implements ActionListener{//实现监听器接口的类
     }
 }
 
+class MyActionListener implements ActionListener{//实现监听器接口的类
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        ClientGUI.action();
+    }
+}
+
+class MyKeyListener implements KeyListener{
+
+    @Override
+    public void keyTyped(KeyEvent e) {
+
+    }
+
+    @Override
+    public void keyPressed(KeyEvent e) {
+        if (e.getKeyChar() == KeyEvent.VK_ENTER){
+            ClientGUI.action();
+        }
+    }
+
+    @Override
+    public void keyReleased(KeyEvent e) {
+
+    }
+}
+
 class Receiver_2 extends Thread {//专门拿来接收消息的线程
     InputStream is = null;
-
     public Receiver_2(InputStream is) throws IOException {
         this.is = is;
     }
@@ -80,6 +108,7 @@ class Receiver_2 extends Thread {//专门拿来接收消息的线程
                 System.out.println("收到消息:" + msg);
                 String old = ClientGUI.jta.getText();
                 ClientGUI.jta.setText(old + "\n" + msg);
+                ClientGUI.jta.select(Integer.MAX_VALUE,1);
             }
         } catch (IOException e) {
             System.out.println("服务器已关闭");
