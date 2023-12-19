@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class SuperClient {
     public static void main(String[] args) {
         try {
-            Socket socket = new Socket("127.0.0.1", 8888);
+            Socket socket = new Socket("172.20.10.3", 8888);
             //收和发分开处理
             new Receiver(socket.getInputStream()).start();//把收消息交给其他线程处理
             //发消息

@@ -85,8 +85,9 @@ public class testFunction {
 
     public static void main(String[] args)
     {
-        try { test_6(); }
-        catch (IOException e) { throw new RuntimeException(e); }
+//        try { test_6(); }
+//        catch (IOException e) { throw new RuntimeException(e); }
+        System.out.println("7a8D8WQ9NTwYaw==".length());
     }
 
 
