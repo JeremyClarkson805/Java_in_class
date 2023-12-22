@@ -3,12 +3,12 @@ package ClassroomDemo.ChattingGen2;
 import com.mysql.cj.util.StringUtils;
 
 import javax.swing.*;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.*;
 
 public class test_addUser {
+    public static Auth user;
     public static Connection getConnection(){//链接到数据库
         try {
             String url = "jdbc:mysql://localhost:3306/javaDatabase";
@@ -59,7 +59,66 @@ public class test_addUser {
             if (r!=0) return;
         }
     }
+
+    private static Auth checkUser(String username, String pwd) throws SQLException {
+        Connection con = getConnection();
+//        System.out.println(username);
+        username = username.replace("'","").replace(" ","").replace("/","").replace("\\","");
+//        System.out.println(username);
+        pwd = pwd.replace("'","").replace(" ","").replace("/","").replace("\\","");
+        String sql = "select * from auth where username='" + username + "' and password='" + pwd + "'";
+        ResultSet rs = con.createStatement().executeQuery(sql);//ResultSet->结果集
+        Auth user = null;
+        if (rs.next()){
+            user = new Auth(rs.getInt("id"),rs.getInt("age"),rs.getString("username"),rs.getString("password"),rs.getString("realname"));
+//            user = new Auth();
+//            user.setUsername(rs.getString("username"));
+//            user.setPassword(rs.getString("password"));
+//            user.setRealname(rs.getString("realname"));
+//            user.setAge(rs.getInt("age"));
+//            user.setId(rs.getInt("id"));
+        }
+        rs.close();
+        con.close();
+        return user;
+    }
     public static void main(String[] args) throws SQLException {
-        addData();
+//        addData();
+        JFrame jf = new JFrame("我是一个窗口");
+        JTextField un = new JTextField(20);
+        JPasswordField pwd = new JPasswordField(20);
+        jf.setLayout(null);
+        jf.add(un);jf.add(pwd);
+        un.setBounds(50,40,300,30);
+        pwd.setBounds(50,80,300,30);
+        JButton bt = new JButton("登陆");
+        bt.addActionListener(new ActionListener() {//这是个实现了接口的无名类
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String username = un.getText();
+                String password = pwd.getText();
+//                System.out.println(username+password);
+                if (username.equals("") || password.equals("")){//如果用户名或密码任意一个没输入
+                    JOptionPane.showMessageDialog(jf,"用户名和密码不能为空！");
+                    return;
+                }
+                try {
+                    user = checkUser(username,password);
+                } catch (SQLException ex) {
+                    System.out.println("1");
+                    throw new RuntimeException(ex);
+                }
+                if (user == null){
+                    JOptionPane.showMessageDialog(jf,"用户名或密码错误！");
+                }else {
+                    JOptionPane.showMessageDialog(jf,"你好"+user.getRealname());
+                }
+            }
+        });
+        jf.add(bt);
+        bt.setBounds(150,120,100,30);
+        jf.setSize(400,300);
+        jf.setVisible(true);
+        jf.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 }
