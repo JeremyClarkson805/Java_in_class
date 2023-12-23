@@ -7,7 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class test_addUser {
+public class login {
     public static Auth user;
     public static Connection getConnection(){//链接到数据库
         try {
@@ -71,12 +71,6 @@ public class test_addUser {
         Auth user = null;
         if (rs.next()){
             user = new Auth(rs.getInt("id"),rs.getInt("age"),rs.getString("username"),rs.getString("password"),rs.getString("realname"));
-//            user = new Auth();
-//            user.setUsername(rs.getString("username"));
-//            user.setPassword(rs.getString("password"));
-//            user.setRealname(rs.getString("realname"));
-//            user.setAge(rs.getInt("age"));
-//            user.setId(rs.getInt("id"));
         }
         rs.close();
         con.close();

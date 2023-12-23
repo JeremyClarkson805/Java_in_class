@@ -6,7 +6,7 @@ import java.sql.SQLException;
 
 public class test_check {
     public static boolean userCheck(String un,String pwd,String rn) throws SQLException {
-        Connection con = test_addUser.getConnection();
+        Connection con = login.getConnection();
         String sql = "select * from auth where username=? and password=? and realname=?";
         PreparedStatement ps = con.prepareCall(sql);
         ps.setString(1,un);

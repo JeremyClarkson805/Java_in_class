@@ -47,6 +47,8 @@ package ClassroomDemo.ChattingGen2;public class Auth {
         this.realname = realname;
     }
 
+    public Auth(){super();}
+
     private int id;
     private int age;
     private String username;

@@ -1,3 +1,5 @@
+import ClassroomDemo.ChattingGen2.login;
+
 import java.io.*;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -58,7 +60,7 @@ class Waiter_test extends Thread {
     }
 
     public static boolean writeToDataBase(String IP, String rn, String sTime, String content) throws SQLException {
-        Connection con = ClassroomDemo.ChattingGen2.test_addUser.getConnection();
+        Connection con = login.getConnection();
         String sql = "insert into server_talk_log(IP,rn,submitTime,log) values (?,?,?,?)";//PreparedStatement是Statement的子接口,可以传入带占位符(?)的SQL语句，提供了补充占位符变量的方法
         PreparedStatement ps = con.prepareCall(sql);
         ps.setString(1, IP);
